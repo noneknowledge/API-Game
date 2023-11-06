@@ -1,0 +1,19 @@
+{
+  "Version": 1,
+  "Hash": "IG7A1F6MfZXkY/Cm7DyJ5Jfzyf6QzeKqUrtUL8sMf1w=",
+  "Source": "Ecommerce-API",
+  "BasePath": "_content/Ecommerce-API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Ecommerce-API\\wwwroot",
+      "Source": "Ecommerce-API",
+      "ContentRoot": "C:\\Users\\Asus\\Desktop\\GITHUB PULL\\API-Game\\Ecommerce-API\\Ecommerce-API\\wwwroot\\",
+      "BasePath": "_content/Ecommerce-API",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": []
+}

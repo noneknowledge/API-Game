@@ -1,3 +1,4 @@
+using Ecommerce_API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce_API.Controllers
@@ -12,10 +13,12 @@ namespace Ecommerce_API.Controllers
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
+          
         }
 
         [HttpGet(Name = "GetWeatherForecast")]

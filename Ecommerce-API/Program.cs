@@ -1,3 +1,7 @@
+using Ecommerce_API.Models;
+using Ecommerce_API.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +10,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddDbContext<Game_DBContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ChuoiKetNoi"));
+});
+builder.Services.AddScoped<ICategoriesRepo,CategoriesRepo>();
 
 var app = builder.Build();
 

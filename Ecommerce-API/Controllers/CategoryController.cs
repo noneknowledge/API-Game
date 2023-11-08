@@ -16,6 +16,7 @@ namespace Ecommerce_API.Controllers
         {
             _cateRepo = repo;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
@@ -28,17 +29,20 @@ namespace Ecommerce_API.Controllers
                 return BadRequest();
             }
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategory(string id)
         {
             return Ok(await _cateRepo.GetCategoryById(id));
         }
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(string id, Category c)
+        public async Task<IActionResult> UpdateCategory(string id, CategoryVM c)
         {
             await _cateRepo.UpdateCategory(id, c);
             return Ok();
         }
+
         [HttpPost]
         public async Task<IActionResult> AddCategory(CategoryVM c)
         {

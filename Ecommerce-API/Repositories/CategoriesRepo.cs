@@ -26,11 +26,11 @@ namespace Ecommerce_API.Repositories
             return cate;
         }
 
-        public async Task<List<CategoryVM?>> GetAllCategories()
+        public async Task<List<Category>> GetAllCategories()
         {
             var cate = await _context.Categories.ToListAsync();
-            
-            return _mapper.Map<List<CategoryVM?>>(cate);
+
+            return cate; 
 
         }
 
@@ -41,9 +41,8 @@ namespace Ecommerce_API.Repositories
 
         }
 
-        public async Task UpdateCategory(string id, Category c)
-        {
-            if (id != c.CateId) return;
+        public async Task UpdateCategory(string id, CategoryVM c)
+        {     
             var cate = await _context.Categories.FirstOrDefaultAsync(a => a.CateId == id);
             if (cate == null)
             {

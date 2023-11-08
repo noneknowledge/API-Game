@@ -25,7 +25,6 @@ namespace Ecommerce_API.Models
 
         public virtual ICollection<Library> Libraries { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
-
         public virtual ICollection<Game> Games { get; set; }
     }
 }

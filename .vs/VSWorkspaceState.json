@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Ecommerce-API",
+    "\\Ecommerce-API\\Repositories"
   ],
-  "SelectedNode": "\\Ecommerce-API.sln",
+  "SelectedNode": "\\Ecommerce-API\\Repositories\\ICategoriesRepo.cs",
   "PreviewInSolutionExplorer": false
 }

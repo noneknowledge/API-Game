@@ -9,6 +9,8 @@ namespace Ecommerce_API.Helpers
         public ApplicationMapper() 
         { 
             CreateMap<Category, CategoryVM>().ReverseMap();
+            CreateMap<Developer, DeveloperVM>().ReverseMap();
+            CreateMap<Publisher, PublisherVM>().ReverseMap();
         
         }
     }

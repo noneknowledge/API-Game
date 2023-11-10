@@ -20,7 +20,6 @@ namespace Ecommerce_API.Repositories
         {
             var model = _mapper.Map<Publisher>(category);
             model.PublisherId = Guid.NewGuid().ToString();
-            model.IsActive = "True";
             _context.Add(model);
             await _context.SaveChangesAsync();
             return model;
@@ -29,7 +28,7 @@ namespace Ecommerce_API.Repositories
 
         public async Task<List<Publisher>> GetAllPublisher()
         {
-            var model = await _context.Publishers.ToListAsync();
+            var model = await _context.Publishers.Where(a=>a.IsActive == "True").ToListAsync();
             return model;
         }
 
@@ -39,11 +38,28 @@ namespace Ecommerce_API.Repositories
             return model;
         }
 
+        public async Task<PublisherVM> HidePublisher(string id)
+        {
+            var model = await _context.Publishers.FirstOrDefaultAsync(a => a.PublisherId == id);
+           
+            if (model.IsActive?.ToUpper() == "FALSE") model.IsActive = "TRUE";
+            else model.IsActive = "FALSE";
+            _context.Update(model);
+            await _context.SaveChangesAsync();
+            var data = _mapper.Map<PublisherVM>(model);
+            return data;
+             
+            
+            
+        }
+
         public async Task UpdatePublisher(string id, PublisherVM category)
         {
             var model = await _context.Publishers.FirstOrDefaultAsync(a => a.PublisherId == id);
             model.Description = category.Description;
             model.Publisher1 = category.Publisher1;
+            _context.Update(model);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -5,5 +5,6 @@
         public string Developer1 { get; set; } = null!;
         public string? Description { get; set; }
         public string? Logo { get; set; }
+        public string? IsActive { get; set; }
     }
 }

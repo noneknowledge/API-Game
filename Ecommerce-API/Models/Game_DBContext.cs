@@ -24,6 +24,7 @@ namespace Ecommerce_API.Models
         public virtual DbSet<Game> Games { get; set; } = null!;
         public virtual DbSet<GameImage> GameImages { get; set; } = null!;
         public virtual DbSet<Library> Libraries { get; set; } = null!;
+        public virtual DbSet<WishGame> WishGames { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public virtual DbSet<Publisher> Publishers { get; set; } = null!;
@@ -33,7 +34,7 @@ namespace Ecommerce_API.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-3U4I9FI\\SQLEXPRESS;Database=Game_DB;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-3U4I9FI\\SQLEXPRESS; Database=Game_DB;Integrated Security=True;");
             }
         }
 
@@ -48,6 +49,8 @@ namespace Ecommerce_API.Models
                     .HasColumnName("AdminID");
 
                 entity.Property(e => e.AdName).HasMaxLength(255);
+
+                entity.Property(e => e.DateOfBirth).HasColumnType("date");
 
                 entity.Property(e => e.FirstName).HasMaxLength(255);
 
@@ -66,8 +69,6 @@ namespace Ecommerce_API.Models
                     .HasMaxLength(50)
                     .HasColumnName("CateID");
 
-                entity.Property(e => e.CateDes).HasMaxLength(255);
-
                 entity.Property(e => e.CateName).HasMaxLength(255);
             });
 
@@ -80,6 +81,8 @@ namespace Ecommerce_API.Models
                 entity.Property(e => e.Uid)
                     .HasMaxLength(50)
                     .HasColumnName("UID");
+
+                entity.Property(e => e.DayOfBirth).HasColumnType("date");
 
                 entity.Property(e => e.Email).HasMaxLength(255);
 
@@ -188,14 +191,31 @@ namespace Ecommerce_API.Models
                 entity.HasMany(d => d.Uids)
                     .WithMany(p => p.Games)
                     .UsingEntity<Dictionary<string, object>>(
-                        "WishList",
-                        l => l.HasOne<Client>().WithMany().HasForeignKey("Uid").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_WishList_Client"),
-                        r => r.HasOne<Game>().WithMany().HasForeignKey("GameId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_WishList_Game"),
+                        "ShoppingCart",
+                        l => l.HasOne<Client>().WithMany().HasForeignKey("Uid").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_ShoppingCart_Client"),
+                        r => r.HasOne<Game>().WithMany().HasForeignKey("GameId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_ShoppingCart_Game"),
                         j =>
                         {
                             j.HasKey("GameId", "Uid");
 
-                            j.ToTable("WishList");
+                            j.ToTable("ShoppingCart");
+
+                            j.IndexerProperty<string>("GameId").HasMaxLength(50).HasColumnName("GameID");
+
+                            j.IndexerProperty<string>("Uid").HasMaxLength(50).HasColumnName("UID");
+                        });
+
+                entity.HasMany(d => d.UidsNavigation)
+                    .WithMany(p => p.GamesNavigation)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "WishGame",
+                        l => l.HasOne<Client>().WithMany().HasForeignKey("Uid").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_WishList_Client"),
+                        r => r.HasOne<Game>().WithMany().HasForeignKey("GameId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_WishList_Game"),
+                        j =>
+                        {
+                            j.HasKey("GameId", "Uid").HasName("PK_WishList");
+
+                            j.ToTable("WishGame");
 
                             j.IndexerProperty<string>("GameId").HasMaxLength(50).HasColumnName("GameID");
 
@@ -255,6 +275,33 @@ namespace Ecommerce_API.Models
                     .HasForeignKey(d => d.Uid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Libraries_Client");
+            });
+
+            modelBuilder.Entity<WishGame>(entity =>
+            {
+                entity.HasKey(e => new { e.UID, e.GameId });
+
+                entity.Property(e => e.UID)
+                    .HasMaxLength(50)
+                    .HasColumnName("UID");
+
+                entity.Property(e => e.GameId)
+                    .HasMaxLength(50)
+                    .HasColumnName("GameID");
+
+                
+
+                entity.HasOne(d => d.Game)
+                    .WithMany(p => p.WishLists)
+                    .HasForeignKey(d => d.GameId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_WishList_Game");
+
+                entity.HasOne(d => d.UidNavigation)
+                    .WithMany(p => p.WishLists)
+                    .HasForeignKey(d => d.UID)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_WishList_Client");
             });
 
             modelBuilder.Entity<Order>(entity =>

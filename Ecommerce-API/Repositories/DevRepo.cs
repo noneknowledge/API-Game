@@ -19,7 +19,6 @@ namespace Ecommerce_API.Repositories
         {
             var model = _mapper.Map<Developer>(category);
             model.DevId = Guid.NewGuid().ToString();
-            model.IsActive = "True";
             _context.Add(model);
             await _context.SaveChangesAsync();
             return model;
@@ -27,7 +26,7 @@ namespace Ecommerce_API.Repositories
 
         public async Task<List<Developer>> GetAllDev()
         {
-            var model = await _context.Developers.ToListAsync();
+            var model = await _context.Developers.Where(a=>a.IsActive == "True").ToListAsync();
             return model;
         }
 
@@ -37,11 +36,27 @@ namespace Ecommerce_API.Repositories
             return model;
         }
 
+        public async Task<DeveloperVM> HideDev(string id)
+        {
+            var model = await _context.Developers.FirstOrDefaultAsync(a => a.DevId == id);          
+            if (model.IsActive.ToUpper() == "False") model.IsActive = "True";
+            else model.IsActive = "False";
+            _context.Update(model);
+            await _context.SaveChangesAsync();
+            var data = _mapper.Map<DeveloperVM>(model);
+            return data;
+
+
+
+        }
+
         public async Task UpdateDev(string id, DeveloperVM category)
         {
             var model = await _context.Developers.FirstOrDefaultAsync(a => a.DevId == id);
             model.Description = category.Description;
             model.Developer1 = category.Developer1;
+            _context.Update(model);
+            await _context.SaveChangesAsync();
         }
     }
 }

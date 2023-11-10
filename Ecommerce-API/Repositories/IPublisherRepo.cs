@@ -9,5 +9,6 @@ namespace Ecommerce_API.Repositories
         public Task<Publisher?> GetPublisher(string id);
         public Task<Publisher> AddPublisher(PublisherVM category);
         public Task UpdatePublisher(string id, PublisherVM category);
+        public Task <PublisherVM> HidePublisher(string id);
     }
 }

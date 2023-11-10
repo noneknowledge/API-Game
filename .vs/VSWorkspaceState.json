@@ -2,8 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\Ecommerce-API",
+    "\\Ecommerce-API\\Controllers",
+    "\\Ecommerce-API\\Models",
     "\\Ecommerce-API\\Repositories"
   ],
-  "SelectedNode": "\\Ecommerce-API\\Repositories\\ICategoriesRepo.cs",
+  "SelectedNode": "\\Ecommerce-API\\Models\\Game.cs",
   "PreviewInSolutionExplorer": false
 }

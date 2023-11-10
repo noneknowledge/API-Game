@@ -12,6 +12,7 @@ namespace Ecommerce_API.Models
             OrderDetails = new HashSet<OrderDetail>();
             Cates = new HashSet<Category>();
             Uids = new HashSet<Client>();
+            UidsNavigation = new HashSet<Client>();
         }
 
         public string GameId { get; set; } = null!;
@@ -27,9 +28,11 @@ namespace Ecommerce_API.Models
         public virtual Publisher? Publisher { get; set; }
         public virtual ICollection<GameImage> GameImages { get; set; }
         public virtual ICollection<Library> Libraries { get; set; }
+        public virtual ICollection<WishGame> WishLists { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
         public virtual ICollection<Category> Cates { get; set; }
         public virtual ICollection<Client> Uids { get; set; }
+        public virtual ICollection<Client> UidsNavigation { get; set; }
     }
 }

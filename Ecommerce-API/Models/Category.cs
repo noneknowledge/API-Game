@@ -12,7 +12,7 @@ namespace Ecommerce_API.Models
 
         public string CateId { get; set; } = null!;
         public string? CateName { get; set; }
-        public string? CateDes { get; set; }
+        public string CateDes { get; set; } = null!;
 
         public virtual ICollection<Game> Games { get; set; }
     }

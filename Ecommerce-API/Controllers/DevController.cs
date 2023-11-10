@@ -30,7 +30,7 @@ namespace Ecommerce_API.Controllers
 
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPub(string id)
+        public async Task<IActionResult> GetDev(string id)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace Ecommerce_API.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePub(string id, DeveloperVM model)
+        public async Task<IActionResult> UpdateDev(string id, DeveloperVM model)
         {
             try
             {
@@ -57,6 +57,12 @@ namespace Ecommerce_API.Controllers
                 return BadRequest();
             }
 
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> HideDev (string id)
+        {
+            var data = await _repo.HideDev(id);
+            return Ok(data);
         }
         [HttpPost]
         public async Task<IActionResult> AddPub(DeveloperVM model)

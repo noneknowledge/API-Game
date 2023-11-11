@@ -7,7 +7,8 @@ namespace Ecommerce_API.Models
     {
         public Developer()
         {
-            Games = new HashSet<Game>();
+            GameDevs = new HashSet<Game>();
+            GamePublishers = new HashSet<Game>();
         }
 
         public string DevId { get; set; } = null!;
@@ -16,6 +17,7 @@ namespace Ecommerce_API.Models
         public string? Logo { get; set; }
         public string? IsActive { get; set; }
 
-        public virtual ICollection<Game> Games { get; set; }
+        public virtual ICollection<Game> GameDevs { get; set; }
+        public virtual ICollection<Game> GamePublishers { get; set; }
     }
 }

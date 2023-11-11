@@ -45,9 +45,6 @@ namespace Ecommerce_API.Repositories
             await _context.SaveChangesAsync();
             var data = _mapper.Map<DeveloperVM>(model);
             return data;
-
-
-
         }
 
         public async Task UpdateDev(string id, DeveloperVM category)

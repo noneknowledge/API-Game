@@ -6,6 +6,6 @@
     "\\Ecommerce-API\\Models",
     "\\Ecommerce-API\\Repositories"
   ],
-  "SelectedNode": "\\Ecommerce-API\\Models\\Game.cs",
+  "SelectedNode": "\\Ecommerce-API\\Models\\Game_DBContext.cs",
   "PreviewInSolutionExplorer": false
 }

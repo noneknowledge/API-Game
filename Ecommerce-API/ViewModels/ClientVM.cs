@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Ecommerce_API.Models
+﻿namespace Ecommerce_API.ViewModels
 {
-    public partial class Client
+    public class ClientVM
     {
-        public Client()
-        {
-            Libraries = new HashSet<Library>();
-            Orders = new HashSet<Order>();
-            ShoppingCarts = new HashSet<ShoppingCart>();
-        }
-
         public string Uid { get; set; } = null!;
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
@@ -23,9 +13,5 @@ namespace Ecommerce_API.Models
         public int? Balance { get; set; }
         public string? IsActive { get; set; }
         public DateTime? DayOfBirth { get; set; }
-
-        public virtual ICollection<Library> Libraries { get; set; }
-        public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; }
     }
 }

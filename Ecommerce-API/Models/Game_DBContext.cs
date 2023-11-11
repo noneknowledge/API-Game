@@ -24,10 +24,9 @@ namespace Ecommerce_API.Models
         public virtual DbSet<Game> Games { get; set; } = null!;
         public virtual DbSet<GameImage> GameImages { get; set; } = null!;
         public virtual DbSet<Library> Libraries { get; set; } = null!;
-        public virtual DbSet<WishGame> WishGames { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
-        public virtual DbSet<Publisher> Publishers { get; set; } = null!;
+        public virtual DbSet<ShoppingCart> ShoppingCarts { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -157,19 +156,21 @@ namespace Ecommerce_API.Models
                     .HasMaxLength(50)
                     .HasColumnName("PublisherID");
 
+                entity.Property(e => e.ReleaseDate).HasColumnType("date");
+
                 entity.Property(e => e.Thumbnail).HasMaxLength(255);
 
                 entity.Property(e => e.Video).HasMaxLength(255);
 
                 entity.HasOne(d => d.Dev)
-                    .WithMany(p => p.Games)
+                    .WithMany(p => p.GameDevs)
                     .HasForeignKey(d => d.DevId)
                     .HasConstraintName("FK_Game_Developer");
 
                 entity.HasOne(d => d.Publisher)
-                    .WithMany(p => p.Games)
+                    .WithMany(p => p.GamePublishers)
                     .HasForeignKey(d => d.PublisherId)
-                    .HasConstraintName("FK_Game_Publisher");
+                    .HasConstraintName("FK_Game_Developer1");
 
                 entity.HasMany(d => d.Cates)
                     .WithMany(p => p.Games)
@@ -186,40 +187,6 @@ namespace Ecommerce_API.Models
                             j.IndexerProperty<string>("GameId").HasMaxLength(50).HasColumnName("GameID");
 
                             j.IndexerProperty<string>("CateId").HasMaxLength(50).HasColumnName("CateID");
-                        });
-
-                entity.HasMany(d => d.Uids)
-                    .WithMany(p => p.Games)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "ShoppingCart",
-                        l => l.HasOne<Client>().WithMany().HasForeignKey("Uid").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_ShoppingCart_Client"),
-                        r => r.HasOne<Game>().WithMany().HasForeignKey("GameId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_ShoppingCart_Game"),
-                        j =>
-                        {
-                            j.HasKey("GameId", "Uid");
-
-                            j.ToTable("ShoppingCart");
-
-                            j.IndexerProperty<string>("GameId").HasMaxLength(50).HasColumnName("GameID");
-
-                            j.IndexerProperty<string>("Uid").HasMaxLength(50).HasColumnName("UID");
-                        });
-
-                entity.HasMany(d => d.UidsNavigation)
-                    .WithMany(p => p.GamesNavigation)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "WishGame",
-                        l => l.HasOne<Client>().WithMany().HasForeignKey("Uid").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_WishList_Client"),
-                        r => r.HasOne<Game>().WithMany().HasForeignKey("GameId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_WishList_Game"),
-                        j =>
-                        {
-                            j.HasKey("GameId", "Uid").HasName("PK_WishList");
-
-                            j.ToTable("WishGame");
-
-                            j.IndexerProperty<string>("GameId").HasMaxLength(50).HasColumnName("GameID");
-
-                            j.IndexerProperty<string>("Uid").HasMaxLength(50).HasColumnName("UID");
                         });
             });
 
@@ -275,33 +242,6 @@ namespace Ecommerce_API.Models
                     .HasForeignKey(d => d.Uid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Libraries_Client");
-            });
-
-            modelBuilder.Entity<WishGame>(entity =>
-            {
-                entity.HasKey(e => new { e.UID, e.GameId });
-
-                entity.Property(e => e.UID)
-                    .HasMaxLength(50)
-                    .HasColumnName("UID");
-
-                entity.Property(e => e.GameId)
-                    .HasMaxLength(50)
-                    .HasColumnName("GameID");
-
-                
-
-                entity.HasOne(d => d.Game)
-                    .WithMany(p => p.WishLists)
-                    .HasForeignKey(d => d.GameId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_WishList_Game");
-
-                entity.HasOne(d => d.UidNavigation)
-                    .WithMany(p => p.WishLists)
-                    .HasForeignKey(d => d.UID)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_WishList_Client");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -369,21 +309,31 @@ namespace Ecommerce_API.Models
                     .HasConstraintName("FK_OrderDetail_Order");
             });
 
-            modelBuilder.Entity<Publisher>(entity =>
+            modelBuilder.Entity<ShoppingCart>(entity =>
             {
-                entity.ToTable("Publisher");
+                entity.HasKey(e => new { e.GameId, e.Uid });
 
-                entity.Property(e => e.PublisherId)
+                entity.ToTable("ShoppingCart");
+
+                entity.Property(e => e.GameId)
                     .HasMaxLength(50)
-                    .HasColumnName("Publisher_ID");
+                    .HasColumnName("GameID");
 
-                entity.Property(e => e.IsActive).HasMaxLength(10);
+                entity.Property(e => e.Uid)
+                    .HasMaxLength(50)
+                    .HasColumnName("UID");
 
-                entity.Property(e => e.Logo).HasMaxLength(255);
+                entity.HasOne(d => d.Game)
+                    .WithMany(p => p.ShoppingCarts)
+                    .HasForeignKey(d => d.GameId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ShoppingCart_Game");
 
-                entity.Property(e => e.Publisher1)
-                    .HasMaxLength(255)
-                    .HasColumnName("Publisher");
+                entity.HasOne(d => d.UidNavigation)
+                    .WithMany(p => p.ShoppingCarts)
+                    .HasForeignKey(d => d.Uid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ShoppingCart_Client");
             });
 
             OnModelCreatingPartial(modelBuilder);

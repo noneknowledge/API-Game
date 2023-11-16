@@ -17,6 +17,10 @@ builder.Services.AddDbContext<Game_DBContext>(options =>
 });
 builder.Services.AddScoped<ICategoriesRepo,CategoriesRepo>();
 builder.Services.AddScoped<IDevRepo,DevRepo>();
+builder.Services.AddScoped<IClientRepo,ClientRepo>();
+builder.Services.AddScoped<IAdminRepo,AdminRepo>();
+builder.Services.AddScoped<IOrderRepo,OrderRepo>();
+
 
 
 var app = builder.Build();

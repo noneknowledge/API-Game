@@ -23,6 +23,8 @@ namespace Ecommerce_API.Models
         public string? DevId { get; set; }
         public string? PublisherId { get; set; }
         public DateTime? ReleaseDate { get; set; }
+        public int? View { get; set; }
+        public string? IsActive { get; set; }
 
         public virtual Developer? Dev { get; set; }
         public virtual Developer? Publisher { get; set; }

@@ -26,7 +26,7 @@ namespace Ecommerce_API.Repositories
 
         public async Task<List<Developer>> GetAllDev()
         {
-            var model = await _context.Developers.Where(a=>a.IsActive == "True").ToListAsync();
+            var model = await _context.Developers.Where(a=>a.IsActive.ToUpper() == "TRUE").ToListAsync();
             return model;
         }
 

@@ -20,6 +20,7 @@ namespace Ecommerce_API.Repositories
         {
             var model = _mapper.Map<Client>(vm);
             model.Uid = Guid.NewGuid().ToString();
+            model.Balance = 0;
             _ctx.Add(model);
             await _ctx.SaveChangesAsync();
             return vm;
@@ -42,26 +43,23 @@ namespace Ecommerce_API.Repositories
             return _mapper.Map<ClientVM>(model);
         }
 
-        public async Task<ClientVM> LoginUser(string username, string password)
+        public async Task<ClientVM> LoginUser(LoginVM login)
         {
-            var model = await _ctx.Clients.FirstOrDefaultAsync(a => a.UserName == username && a.PassWord == password);
+            var model = await _ctx.Clients.FirstOrDefaultAsync(a => a.UserName == login.username && a.PassWord == login.password);
             if (model != null) return _mapper.Map<ClientVM>(model);
             return null;
         }
 
         public async Task<ClientVM> UpdateUser(string id, ClientVM vm)
         {
-            var model = await _ctx.Clients.FirstOrDefaultAsync(a => a.Uid == id);
-
-            if (id == vm.Uid)
-            {
-                var viewmodel = _mapper.Map<Client>(vm);
-                model = viewmodel;
-                _ctx.Update(model);
-                await _ctx.SaveChangesAsync();
-                return vm;
-            }
-            return null;
+            var model = await _ctx.Clients.FirstOrDefaultAsync(a => a.Uid == id);   
+            var viewmodel = _mapper.Map<Client>(vm);
+            model = viewmodel;
+            _ctx.Update(model);
+            await _ctx.SaveChangesAsync();
+            return vm;
+            
+            
         }
     }
 }

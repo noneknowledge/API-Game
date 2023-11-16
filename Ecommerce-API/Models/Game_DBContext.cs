@@ -152,6 +152,10 @@ namespace Ecommerce_API.Models
 
                 entity.Property(e => e.GameName).HasMaxLength(255);
 
+                entity.Property(e => e.IsActive)
+                    .HasMaxLength(10)
+                    .HasColumnName("isActive");
+
                 entity.Property(e => e.PublisherId)
                     .HasMaxLength(50)
                     .HasColumnName("PublisherID");
@@ -230,6 +234,8 @@ namespace Ecommerce_API.Models
                     .HasColumnName("GameID");
 
                 entity.Property(e => e.FeedBack).HasMaxLength(255);
+
+                entity.Property(e => e.IsLike).HasColumnName("isLike");
 
                 entity.HasOne(d => d.Game)
                     .WithMany(p => p.Libraries)

@@ -43,9 +43,9 @@ namespace Ecommerce_API.Repositories
             return _mapper.Map<AdminVM>(model);
         }
 
-        public async Task<AdminVM> LoginAdmin(string username, string password)
+        public async Task<AdminVM> LoginAdmin(LoginVM vm)
         {
-            var model = await _ctx.Admins.FirstOrDefaultAsync(a => a.AdName == username && a.PassWord == password);
+            var model = await _ctx.Admins.FirstOrDefaultAsync(a => a.AdName == vm.username && a.PassWord == vm.password);
             if (model != null) return _mapper.Map<AdminVM>(model);
             return null;
         }
@@ -53,16 +53,12 @@ namespace Ecommerce_API.Repositories
         public async Task<AdminVM> UpdateAdmin(string id, AdminVM vm)
         {
             var model = await _ctx.Admins.FirstOrDefaultAsync(a => a.AdminId == id); 
+            var viewmodel = _mapper.Map<Admin>(vm);
+            model = viewmodel;
+            _ctx.Update(model);
+            await _ctx.SaveChangesAsync();
+            return vm;
             
-            if (id == vm.AdminId)
-            {
-                var viewmodel = _mapper.Map<Admin>(vm);
-                model = viewmodel;
-                _ctx.Update(model);
-                await _ctx.SaveChangesAsync();
-                return vm;
-            }
-            return null;
         }
     }
 }

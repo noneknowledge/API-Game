@@ -58,7 +58,7 @@ namespace Ecommerce_API.Controllers
             }
 
         }
-        [HttpDelete("{id}")]
+        [HttpPut("Hide/{id}")]
         public async Task<IActionResult> HideDev (string id)
         {
             var data = await _repo.HideDev(id);

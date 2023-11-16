@@ -7,7 +7,7 @@ namespace Ecommerce_API.Models
     {
         public string Uid { get; set; } = null!;
         public string GameId { get; set; } = null!;
-        public int? PlayTime { get; set; }
+        public int? IsLike { get; set; }
         public string? FeedBack { get; set; }
 
         public virtual Game Game { get; set; } = null!;

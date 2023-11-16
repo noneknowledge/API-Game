@@ -36,6 +36,7 @@ namespace Ecommerce_API.Controllers
             data.Uid = VM.Uid;
             data.GameId = VM.GameId;
             data.FeedBack = VM.FeedBack;
+            data.IsLike = null;
             _ctx.Add(data);
             await _ctx.SaveChangesAsync();
             return Ok(data);
@@ -46,6 +47,9 @@ namespace Ecommerce_API.Controllers
             var spec_game = await _ctx.Libraries.FirstOrDefaultAsync(a => a.Uid == vm.Uid && a.GameId == vm.GameId);
             if (spec_game == null) return BadRequest();
             spec_game.FeedBack = vm.FeedBack;
+            spec_game.IsLike = vm.IsLike;
+            _ctx.Update(spec_game);
+            await _ctx.SaveChangesAsync();
             return Ok(spec_game);
         }
 

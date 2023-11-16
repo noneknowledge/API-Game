@@ -8,6 +8,6 @@ namespace Ecommerce_API.Repositories
         public Task<AdminVM> UpdateAdmin(string id, AdminVM vm);
         public Task DisableAdmin(string id);
         public Task<AdminVM> GetAdmin(string id);
-        public Task<AdminVM> LoginAdmin(string username, string password);
+        public Task<AdminVM> LoginAdmin(LoginVM vm);
     }
 }

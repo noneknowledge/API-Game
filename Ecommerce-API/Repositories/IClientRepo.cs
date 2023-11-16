@@ -8,6 +8,6 @@ namespace Ecommerce_API.Repositories
         public Task<ClientVM> UpdateUser(string id, ClientVM vm);
         public Task DisableUser(string id);
         public Task<ClientVM> GetUser(string id);
-        public Task<ClientVM> LoginUser(string username, string password);
+        public Task<ClientVM> LoginUser(LoginVM login);
     }
 }

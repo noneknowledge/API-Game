@@ -12,6 +12,8 @@ namespace Ecommerce_API.Helpers
             CreateMap<Developer, DeveloperVM>().ReverseMap();
             CreateMap<Admin, AdminVM>().ReverseMap();
             CreateMap<Client, ClientVM>().ReverseMap();
+            CreateMap<Order, OrderVM>().ReverseMap();
+            CreateMap<Game, GameVM>().ReverseMap();
             
         
         }

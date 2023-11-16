@@ -2,7 +2,7 @@
 {
     public class AdminVM
     {
-        public string AdminId { get; set; } = null!;
+        
         public string? AdName { get; set; }
         public string? PassWord { get; set; }
         public string? FirstName { get; set; }

@@ -6,6 +6,6 @@
     "\\Ecommerce-API\\Models",
     "\\Ecommerce-API\\Repositories"
   ],
-  "SelectedNode": "\\Ecommerce-API\\Repositories\\DevRepo.cs",
+  "SelectedNode": "\\Ecommerce-API\\Controllers\\ClientController.cs",
   "PreviewInSolutionExplorer": false
 }
